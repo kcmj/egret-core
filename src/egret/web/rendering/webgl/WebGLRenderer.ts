@@ -29,7 +29,7 @@
 
 namespace egret.web {
 
-    let blendModes = ["source-over", "lighter", "destination-out"];
+    let blendModes = ["source-over", "lighter", "destination-out", "destination-in"];
     let defaultCompositeOp = "source-over";
     let BLACK_COLOR = "#000000";
     let CAPS_STYLES = { none: 'butt', square: 'square', round: 'round' };
