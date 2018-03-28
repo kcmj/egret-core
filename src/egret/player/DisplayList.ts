@@ -30,7 +30,7 @@
 namespace egret.sys {
 
     let displayListPool: DisplayList[] = [];
-    let blendModes = ["source-over", "lighter", "destination-out"];
+    let blendModes = ["source-over", "lighter", "destination-out", "destination-in"];
     let defaultCompositeOp = "source-over";
 
     /**

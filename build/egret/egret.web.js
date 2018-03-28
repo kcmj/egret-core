@@ -6838,7 +6838,7 @@ var egret;
 (function (egret) {
     var web;
     (function (web) {
-        var blendModes = ["source-over", "lighter", "destination-out"];
+        var blendModes = ["source-over", "lighter", "destination-out", "destination-in"];
         var defaultCompositeOp = "source-over";
         var BLACK_COLOR = "#000000";
         var CAPS_STYLES = { none: 'butt', square: 'square', round: 'round' };

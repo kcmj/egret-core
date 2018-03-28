@@ -12651,7 +12651,7 @@ var egret;
     var sys;
     (function (sys) {
         var displayListPool = [];
-        var blendModes = ["source-over", "lighter", "destination-out"];
+        var blendModes = ["source-over", "lighter", "destination-out", "destination-in"];
         var defaultCompositeOp = "source-over";
         /**
          * @private
@@ -17232,6 +17232,7 @@ var egret;
          * @language zh_CN
          */
         BlendMode.ERASE = "erase";
+        BlendMode.ERASE_IN = "eraseIn";
         return BlendMode;
     }());
     egret.BlendMode = BlendMode;
@@ -17240,7 +17241,7 @@ var egret;
 (function (egret) {
     var sys;
     (function (sys) {
-        var blendModeString = ["normal", "add", "erase"];
+        var blendModeString = ["normal", "add", "erase", "eraseIn"];
         var blendModeNumber = {};
         var length = blendModeString.length;
         for (var i = 0; i < length; i++) {

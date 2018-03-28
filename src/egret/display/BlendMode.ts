@@ -102,12 +102,14 @@ namespace egret {
          */
         public static ERASE:string = "erase";
 
+        public static ERASE_IN:string = "eraseIn";
+
     }
 }
 
 namespace egret.sys {
 
-    let blendModeString = ["normal", "add", "erase"];
+    let blendModeString = ["normal", "add", "erase", "eraseIn"];
     let blendModeNumber = {};
     let length = blendModeString.length;
     for (let i = 0; i < length; i++) {
