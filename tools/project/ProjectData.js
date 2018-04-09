@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var file = require("../lib/FileUtil");
 var _utils = require("../lib/utils");
 var _path = require("path");
-var EgretProjectData = (function () {
+var EgretProjectData = /** @class */ (function () {
     function EgretProjectData() {
         this.egretProperties = {
             modules: [],
@@ -195,7 +195,7 @@ var EgretProjectData = (function () {
             var sourceDir = _this.getModulePath(m);
             var targetDir = _path.join(_this.getLibraryFolder(), name);
             var relative = _path.relative(_this.getProjectRoot(), sourceDir);
-            if (relative.indexOf("..") == -1 && !_path.isAbsolute(relative)) {
+            if (relative.indexOf("..") == -1 && !_path.isAbsolute(relative)) { // source 在项目中
                 targetDir = sourceDir;
             }
             targetDir = file.escapePath(_path.relative(_this.getProjectRoot(), targetDir)) + _path.sep;
@@ -253,12 +253,12 @@ var EgretProjectData = (function () {
         var content = JSON.stringify(this.egretProperties, null, "\t");
         file.save(egretPropertiesPath, content);
     };
+    __decorate([
+        _utils.cache
+    ], EgretProjectData.prototype, "getModulesConfig", null);
     return EgretProjectData;
 }());
-__decorate([
-    _utils.cache
-], EgretProjectData.prototype, "getModulesConfig", null);
-var EgretLauncherProxy = (function () {
+var EgretLauncherProxy = /** @class */ (function () {
     function EgretLauncherProxy() {
     }
     EgretLauncherProxy.prototype.getMinVersion = function () {
@@ -271,6 +271,7 @@ var EgretLauncherProxy = (function () {
         };
     };
     EgretLauncherProxy.prototype.getEgretToolsInstalledByVersion = function (checkVersion) {
+        return "/usr/local/egret-core";
         var egretjs = this.getLauncherLibrary();
         var data = egretjs.getAllEngineVersions();
         var versions = [];
@@ -284,7 +285,8 @@ var EgretLauncherProxy = (function () {
                 return versionInfo.path;
             }
         }
-        throw "\u627E\u4E0D\u5230\u6307\u5B9A\u7684 egret \u7248\u672C: " + checkVersion;
+        return "/usr/local/egret-core";
+        //throw `找不到指定的 egret 版本: ${checkVersion}`;
     };
     EgretLauncherProxy.prototype.getLauncherLibrary = function () {
         var egretjspath = file.joinPath(getEgretLauncherPath(), "egret.js");
@@ -297,7 +299,7 @@ var EgretLauncherProxy = (function () {
                     var result = target[p];
                     if (!result) {
                         var minVersion = minVersions[p];
-                        throw "\u627E\u4E0D\u5230 LauncherAPI:" + p + ",\u8BF7\u5B89\u88C5\u6700\u65B0\u7684\u767D\u9E6D\u5F15\u64CE\u542F\u52A8\u5668\u5BA2\u6237\u7AEF\u89E3\u51B3\u6B64\u95EE\u9898,\u6700\u4F4E\u7248\u672C\u8981\u6C42:" + minVersion + ",\u4E0B\u8F7D\u5730\u5740:https://egret.com/products/engine.html"; //i18n
+                        //throw `找不到 LauncherAPI:${p},请安装最新的白鹭引擎启动器客户端解决此问题,最低版本要求:${minVersion},下载地址:https://egret.com/products/engine.html`//i18n
                     }
                     return result.bind(target);
                 }
@@ -324,14 +326,16 @@ function getAppDataPath() {
             ;
     }
     if (!file.exists(result)) {
-        throw 'missing appdata path';
+        //throw 'missing appdata path'
     }
     return result;
 }
 function getAppDataEnginesRootPath() {
+    return "/usr/local/egret-core/";
     var result = file.joinPath(getAppDataPath(), "Egret/engine/");
     if (!file.exists(result)) {
-        throw "\u627E\u4E0D\u5230 " + result + "\uFF0C\u8BF7\u5728 Egret Launcher \u4E2D\u6267\u884C\u4FEE\u590D\u5F15\u64CE"; //todo i18n
+        return "/usr/local/egret-core/";
+        //throw `找不到 ${result}，请在 Egret Launcher 中执行修复引擎`;//todo i18n
     }
     return result;
 }
@@ -339,7 +343,7 @@ function getEgretLauncherPath() {
     var npmEgretPath;
     if (process.platform === 'darwin') {
         var basicPath = '/usr/local';
-        if (!file.existsSync(basicPath)) {
+        if (!file.existsSync(basicPath)) { //some mac doesn't have path '/usr/local'
             basicPath = '/usr';
         }
         npmEgretPath = file.joinPath(basicPath, 'lib/node_modules/egret/EgretEngine');
@@ -348,7 +352,7 @@ function getEgretLauncherPath() {
         npmEgretPath = file.joinPath(getAppDataPath(), 'npm/node_modules/egret/EgretEngine');
     }
     if (!file.exists(npmEgretPath)) {
-        throw "\u627E\u4E0D\u5230  " + npmEgretPath + "\uFF0C\u8BF7\u5728 Egret Launcher \u4E2D\u6267\u884C\u4FEE\u590D\u5F15\u64CE"; //todo i18n
+        //throw `找不到  ${npmEgretPath}，请在 Egret Launcher 中执行修复引擎`;//todo i18n
     }
     var launcherPath = file.joinPath(file.read(npmEgretPath), "../");
     return launcherPath;

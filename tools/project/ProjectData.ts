@@ -343,6 +343,7 @@ class EgretLauncherProxy {
     private proxy: LauncherAPI;
 
     getEgretToolsInstalledByVersion(checkVersion: string) {
+	return "/usr/local/egret-core";
         const egretjs = this.getLauncherLibrary();
         const data = egretjs.getAllEngineVersions() as any[];
         const versions: { version: string, path: string }[] = [];
@@ -355,7 +356,8 @@ class EgretLauncherProxy {
                 return versionInfo.path;
             }
         }
-        throw `找不到指定的 egret 版本: ${checkVersion}`;
+	return "/usr/local/egret-core";
+        //throw `找不到指定的 egret 版本: ${checkVersion}`;
     }
 
     getLauncherLibrary(): LauncherAPI {
@@ -369,7 +371,7 @@ class EgretLauncherProxy {
                     const result = target[p];
                     if (!result) {
                         const minVersion = minVersions[p];
-                        throw `找不到 LauncherAPI:${p},请安装最新的白鹭引擎启动器客户端解决此问题,最低版本要求:${minVersion},下载地址:https://egret.com/products/engine.html`//i18n
+                        //throw `找不到 LauncherAPI:${p},请安装最新的白鹭引擎启动器客户端解决此问题,最低版本要求:${minVersion},下载地址:https://egret.com/products/engine.html`//i18n
                     }
                     return result.bind(target)
                 }
@@ -397,16 +399,18 @@ function getAppDataPath() {
     }
 
     if (!file.exists(result)) {
-        throw 'missing appdata path'
+        //throw 'missing appdata path'
     }
     return result;
 }
 
 
 function getAppDataEnginesRootPath() {
+    return "/usr/local/egret-core/";
     const result = file.joinPath(getAppDataPath(), "Egret/engine/");
     if (!file.exists(result)) {
-        throw `找不到 ${result}，请在 Egret Launcher 中执行修复引擎`;//todo i18n
+	return "/usr/local/egret-core/";
+        //throw `找不到 ${result}，请在 Egret Launcher 中执行修复引擎`;//todo i18n
     }
     return result;
 }
@@ -425,7 +429,7 @@ function getEgretLauncherPath() {
 
     }
     if (!file.exists(npmEgretPath)) {
-        throw `找不到  ${npmEgretPath}，请在 Egret Launcher 中执行修复引擎`;//todo i18n
+        //throw `找不到  ${npmEgretPath}，请在 Egret Launcher 中执行修复引擎`;//todo i18n
     }
     const launcherPath = file.joinPath(file.read(npmEgretPath), "../");
     return launcherPath;
