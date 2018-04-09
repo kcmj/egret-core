@@ -4071,6 +4071,7 @@ declare namespace egret {
          * @language zh_CN
          */
         static ERASE: string;
+        static ERASE_IN: string;
     }
 }
 declare namespace egret.sys {
